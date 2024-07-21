@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/v1/book")
 public class BookController {
 
     @Autowired

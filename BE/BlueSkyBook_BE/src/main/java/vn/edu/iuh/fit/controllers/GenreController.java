@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/genres")
+@RequestMapping("/api/v1/genre")
 public class GenreController {
 
     @Autowired
