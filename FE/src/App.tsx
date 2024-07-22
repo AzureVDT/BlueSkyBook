@@ -1,7 +1,7 @@
 import "./App.scss";
 
-const App = () => {
-    return <div></div>;
+const App = ({ children }: { children: React.ReactNode }) => {
+    return <>{children}</>;
 };
 
 export default App;
