@@ -12,6 +12,8 @@ public interface OrderServices {
 
     Order createOrder(OrderDTO orderDTO);
 
+    void deleteAllOrders();
+
     void deleteOrder(int orderId);
 
     List<OrderDetail> getOrderDetailsByOrderId(int orderId);

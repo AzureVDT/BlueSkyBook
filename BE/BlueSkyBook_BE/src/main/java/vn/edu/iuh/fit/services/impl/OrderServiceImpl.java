@@ -66,6 +66,12 @@ public class OrderServiceImpl implements OrderServices {
         savedOrder.setOrderDetails(orderDetails);
         return orderRepository.save(savedOrder);
     }
+
+    @Override
+    public void deleteAllOrders() {
+        orderRepository.deleteAll();
+    }
+
     public void deleteOrder(int orderId) {
         orderRepository.deleteById(orderId);
     }

@@ -29,6 +29,12 @@ public class OrderController {
         return ResponseEntity.ok(createdOrder);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteAllOrders() {
+        orderService.deleteAllOrders();
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{orderId}/delete")
     public ResponseEntity<Void> deleteOrder(@PathVariable int orderId) {
         orderService.deleteOrder(orderId);
@@ -41,7 +47,7 @@ public class OrderController {
         return ResponseEntity.ok(orderDetails);
     }
 
-    @PutMapping("/detail/{orderDetailId}/quantity/update")
+    @PutMapping("/detail/{orderDetailId}/update")
     public ResponseEntity<OrderDetail> updateOrderDetailQuantity(@PathVariable int orderDetailId, @RequestParam int quantity) {
         OrderDetail updatedOrderDetail = orderService.updateOrderDetailQuantity(orderDetailId, quantity);
         return ResponseEntity.ok(updatedOrderDetail);
