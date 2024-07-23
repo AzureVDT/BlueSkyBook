@@ -5,6 +5,7 @@ type LoginResponse = {
     phone: string;
     avatar: string;
     address: string;
+    password: string;
 };
 
 export type { LoginResponse };

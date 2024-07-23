@@ -2,7 +2,10 @@ import { Button, Form, FormProps, Input, Typography } from "antd";
 import LayoutAuthentication from "../layouts/LayoutAuthentication";
 import { BLUE_STORE_BOOK_API } from "../apis";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import getUserInfoFromCookie from "../utils/getUserInfoFromCookie";
+import saveUserInfoToCookie from "../utils/saveUserInfoToCookie";
+import { toast } from "react-toastify";
 
 type FieldType = {
     name: string;
@@ -12,11 +15,11 @@ type FieldType = {
 const SignUpPage = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const [loading, setLoadng] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
         try {
-            setLoadng(true);
+            setLoading(true);
             const { name, email, password } = values;
             const response = await BLUE_STORE_BOOK_API.AUTH.signup(
                 name,
@@ -24,9 +27,11 @@ const SignUpPage = () => {
                 password
             );
             if (response.status === 200) {
+                saveUserInfoToCookie(response.data);
+                toast.success("Sign up successfully!");
                 navigate("/profile");
             }
-            setLoadng(false);
+            setLoading(false);
         } catch (error) {
             console.error(error);
         }
@@ -36,6 +41,12 @@ const SignUpPage = () => {
     ) => {
         console.log("Failed:", errorInfo);
     };
+    useEffect(() => {
+        const decryptUser = getUserInfoFromCookie();
+        if (decryptUser) {
+            navigate("/");
+        }
+    }, [navigate]);
     return (
         <LayoutAuthentication>
             <Form

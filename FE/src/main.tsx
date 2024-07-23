@@ -12,12 +12,9 @@ import DashboardPage from "./pages/DashboardPage.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
-
-// const DashboardPage = () =>
-//     React.lazy(() => import("./pages/DashboardPage.tsx"));
-// const NotFoundPage = () => React.lazy(() => import("./pages/NotFoundPage.tsx"));
-// const LoginPage = () => React.lazy(() => import("./pages/LoginPage.tsx"));
-// const SignUpPage = () => React.lazy(() => import("./pages/SignUpPage.tsx"));
+import ProfilePage from "./pages/ProfilePage.tsx";
+import { Provider } from "react-redux";
+import store from "./store/configureStore.ts";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <DashboardPage />,
+            },
+            {
+                path: "/customer/account",
+                element: <ProfilePage />,
             },
         ],
     },
@@ -42,11 +43,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        <App>
-            <Suspense fallback={<Loading />}>
-                <RouterProvider router={router} />
-            </Suspense>
-        </App>
+        <Provider store={store}>
+            <App>
+                <Suspense fallback={<Loading />}>
+                    <RouterProvider router={router} />
+                </Suspense>
+            </App>
+        </Provider>
         <ToastContainer bodyClassName="font-primary text-sm"></ToastContainer>
     </React.StrictMode>
 );

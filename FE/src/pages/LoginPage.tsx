@@ -2,7 +2,10 @@ import { Button, Form, FormProps, Input, Typography } from "antd";
 import LayoutAuthentication from "../layouts/LayoutAuthentication";
 import { BLUE_STORE_BOOK_API } from "../apis";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import saveUserInfoToCookie from "../utils/saveUserInfoToCookie";
+import getUserInfoFromCookie from "../utils/getUserInfoFromCookie";
+import { toast } from "react-toastify";
 
 type FieldType = {
     email: string;
@@ -23,13 +26,24 @@ const LoginPage = () => {
                 password
             );
             if (response.status === 200) {
+                toast.success("Login successfully!");
+                saveUserInfoToCookie(response.data);
                 navigate("/");
             }
             setLoading(false);
         } catch (error) {
+            toast.error("Email or password is incorrect");
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const decryptUser = getUserInfoFromCookie();
+        if (decryptUser) {
+            navigate("/");
+        }
+    }, [navigate]);
+
     const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
         errorInfo
     ) => {

@@ -7,6 +7,7 @@
     import vn.edu.iuh.fit.models.Customer;
     import vn.edu.iuh.fit.services.CustomerServices;
 
+    import java.util.Map;
     import java.util.Optional;
 
     @RestController
@@ -44,8 +45,13 @@
         }
 
         @PutMapping("/{id}/update/password")
-        public ResponseEntity<Void> updatePassword(@PathVariable int id, @RequestBody String newPassword) {
-            customerServices.updatePassword(id, newPassword);
-            return ResponseEntity.ok().build();
+        public ResponseEntity<Void> updatePassword(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+            String newPassword = requestBody.get("new_password");
+            if (newPassword != null) {
+                customerServices.updatePassword(id, newPassword);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
         }
     }

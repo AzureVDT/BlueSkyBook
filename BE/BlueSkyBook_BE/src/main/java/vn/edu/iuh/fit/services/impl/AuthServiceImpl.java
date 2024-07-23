@@ -16,16 +16,16 @@ public class AuthServiceImpl implements AuthServices {
     private CustomerRepository customerRepository;
 
     @Override
-    public Optional<CustomerDTO> login(String email, String password) {
+    public Optional<Customer> login(String email, String password) {
         Optional<Customer> customerOptional = customerRepository.findByEmailAndPassword(email, password);
-        return customerOptional.map(this::convertToDTO);
+        return customerOptional;
     }
 
     @Override
-    public CustomerDTO signup(String name, String email, String password) {
+    public Customer signup(String name, String email, String password) {
         Customer customer = new Customer(name, email, null, null, password);
         customer = customerRepository.save(customer);
-        return convertToDTO(customer);
+        return customer;
     }
 
     private CustomerDTO convertToDTO(Customer customer) {
