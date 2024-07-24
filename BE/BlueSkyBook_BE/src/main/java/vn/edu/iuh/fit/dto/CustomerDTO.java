@@ -2,6 +2,7 @@ package vn.edu.iuh.fit.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import vn.edu.iuh.fit.enums.Role;
 
 /**
  * @author VoDinhThong
@@ -18,4 +19,5 @@ public class CustomerDTO {
     private String phone;
     private String avatar;
     private String address;
+    private Role role;
 }

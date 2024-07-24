@@ -33,6 +33,7 @@
             customerDTO.setPhone(customer.getPhone());
             customerDTO.setAvatar(customer.getAvatar());
             customerDTO.setAddress(customer.getAddress());
+            customerDTO.setRole(customer.getRole());
             CustomerDTO createdCustomer = customerServices.addCustomer(customerDTO, customer.getPassword());
             return ResponseEntity.ok(createdCustomer);
         }

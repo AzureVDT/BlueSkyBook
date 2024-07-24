@@ -17,9 +17,8 @@ public class AuthController {
     private AuthServices authServices;
 
     @PostMapping("/login")
-    public Optional<Customer> login(@RequestBody Customer customer) {
-        Optional<Customer> customerDTO = authServices.login(customer.getEmail(), customer.getPassword());
-        return customerDTO;
+    public Customer login(@RequestBody Customer customer) {
+        return authServices.login(customer.getEmail(), customer.getPassword());
     }
 
     @PostMapping("/signup")

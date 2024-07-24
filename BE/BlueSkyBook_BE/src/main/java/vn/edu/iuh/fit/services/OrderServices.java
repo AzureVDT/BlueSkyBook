@@ -23,4 +23,5 @@ public interface OrderServices {
     void deleteOrderDetail(int orderDetailId);
 
     OrderDetail addOrderDetailToOrder(int orderId, OrderDetailDTO orderDetailDTO);
+    void deleteAllOrdersByCustomerId(int customerId);
 }

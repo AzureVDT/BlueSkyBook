@@ -98,6 +98,13 @@ public class OrderServiceImpl implements OrderServices {
         orderDetail.setQuantity(orderDetailDTO.getQuantity());
         return orderDetailRepository.save(orderDetail);
     }
+
+    @Override
+    public void deleteAllOrdersByCustomerId(int customerId) {
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+        orderRepository.deleteAll(orders);
+    }
+
     @Override
     public void deleteOrderDetail(int orderDetailId) {
         orderDetailRepository.deleteById(orderDetailId);

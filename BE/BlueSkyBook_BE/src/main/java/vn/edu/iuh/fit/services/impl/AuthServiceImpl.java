@@ -1,7 +1,9 @@
 package vn.edu.iuh.fit.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import vn.edu.iuh.fit.dto.CustomerDTO;
 import vn.edu.iuh.fit.models.Customer;
 import vn.edu.iuh.fit.repositories.CustomerRepository;
@@ -16,9 +18,9 @@ public class AuthServiceImpl implements AuthServices {
     private CustomerRepository customerRepository;
 
     @Override
-    public Optional<Customer> login(String email, String password) {
-        Optional<Customer> customerOptional = customerRepository.findByEmailAndPassword(email, password);
-        return customerOptional;
+    public Customer login(String email, String password) {
+        return customerRepository.findByEmailAndPassword(email, password)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
     }
 
     @Override

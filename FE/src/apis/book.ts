@@ -12,7 +12,7 @@ const getBookById = async (id: number) => {
     return response;
 };
 
-const getBookByGenre = async (genre: string) => {
+const getBookByGenre = async (genre: number) => {
     const response: AxiosResponse<Book[]> = await axios.get(
         `/book/genre/${genre}`
     );

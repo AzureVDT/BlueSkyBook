@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements CustomerServices {
         dto.setPhone(customer.getPhone());
         dto.setAvatar(customer.getAvatar());
         dto.setAddress(customer.getAddress());
+        dto.setRole(customer.getRole());
         return dto;
     }
 
@@ -81,6 +82,7 @@ public class CustomerServiceImpl implements CustomerServices {
         customer.setPhone(dto.getPhone());
         customer.setAvatar(dto.getAvatar());
         customer.setAddress(dto.getAddress());
+        customer.setRole(dto.getRole());
         return customer;
     }
     @Override

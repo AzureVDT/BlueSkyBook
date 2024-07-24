@@ -30,6 +30,12 @@ public class OrderController {
         return ResponseEntity.ok(createdOrder);
     }
 
+    @DeleteMapping("/delete/{customerId}")
+    public ResponseEntity<Void> deleteAllOrdersByCustomerId(@PathVariable int customerId) {
+        orderService.deleteAllOrdersByCustomerId(customerId);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteAllOrders() {
         orderService.deleteAllOrders();

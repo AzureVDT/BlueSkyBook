@@ -3,6 +3,7 @@ package vn.edu.iuh.fit.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import vn.edu.iuh.fit.enums.Role;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Customer {
     @Column(name = "address", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String address;
     private String password;
+    private Role role;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonBackReference

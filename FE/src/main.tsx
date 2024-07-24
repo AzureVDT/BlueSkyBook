@@ -15,6 +15,7 @@ import SignUpPage from "./pages/SignUpPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import { Provider } from "react-redux";
 import store from "./store/configureStore.ts";
+import BookDetailPage from "./pages/BookDetailPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: "/customer/account",
                 element: <ProfilePage />,
+            },
+            {
+                path: "/book/:id",
+                element: <BookDetailPage />,
             },
         ],
     },
