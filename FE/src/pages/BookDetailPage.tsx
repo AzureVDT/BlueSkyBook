@@ -66,6 +66,7 @@ const BookDetailPage = () => {
                 name: book.bookname,
                 price: book.price,
                 thumbnail: book.thumbnail,
+                availableQuantity: book.availableQuantity,
             });
         }
         dispatch(setTriggerFetchingCart(!triggerFetchingCart));

@@ -23,6 +23,7 @@ const DashboardTopBar = () => {
             name: string;
             price: number;
             thumbnail: string;
+            availableQuantity: number;
         }[]
     >(JSON.parse(sessionStorage.getItem("cartItems") || "[]"));
 
@@ -60,11 +61,7 @@ const DashboardTopBar = () => {
                     .reduce((acc, item) => acc + item.quantity * item.price, 0)
                     .toFixed(2)}
             </Typography.Title>
-            <Button
-                type="primary"
-                block
-                onClick={() => navigate("/checkout/cart/")}
-            >
+            <Button type="primary" block onClick={() => navigate("/checkout")}>
                 View Cart
             </Button>
         </div>
@@ -108,6 +105,7 @@ const DashboardTopBar = () => {
                                     <ShoppingCartOutlined />
                                 </Badge>
                             }
+                            onClick={() => navigate("/checkout")}
                         >
                             My Cart
                         </Button>

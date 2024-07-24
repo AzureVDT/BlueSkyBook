@@ -1,15 +1,16 @@
 import { AxiosResponse } from "axios";
 import axios from "./axios";
 import { Order, OrderDetail } from "../types/orderTypes";
+import { OrderBody } from "../types/commonType";
 
-const getOrderByCustomerId = async (customerId: string) => {
+const getOrderByCustomerId = async (customerId: number) => {
     const response: AxiosResponse<Order[]> = await axios.get(
         `/order/customer/${customerId}`
     );
     return response;
 };
 
-const createOrder = async (order: Order) => {
+const createOrder = async (order: OrderBody) => {
     const response: AxiosResponse<Order> = await axios.post(
         "/order/create",
         order

@@ -54,12 +54,19 @@ public class OrderServiceImpl implements OrderServices {
         for (OrderDetailDTO orderDetailDTO : orderDTO.getOrderDetails()) {
             Book book = bookRepository.findById(orderDetailDTO.getBookId())
                     .orElseThrow(() -> new RuntimeException("Book not found"));
+            if (book.getAvailableQuantity() < orderDetailDTO.getQuantity()) {
+                throw new RuntimeException("Insufficient stock for book: " + book.getBookname());
+            }
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(savedOrder);  // Use the saved order
             orderDetail.setBook(book);
             orderDetail.setQuantity(orderDetailDTO.getQuantity());
             orderDetail = orderDetailRepository.save(orderDetail);
             orderDetails.add(orderDetail);
+
+            // Decrease the available quantity of the book
+            book.setAvailableQuantity(book.getAvailableQuantity() - orderDetailDTO.getQuantity());
+            bookRepository.save(book);
         }
 
         // Update the saved order with the order details
@@ -69,44 +76,95 @@ public class OrderServiceImpl implements OrderServices {
 
     @Override
     public void deleteAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        for (Order order : orders) {
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                Book book = orderDetail.getBook();
+                book.setAvailableQuantity(book.getAvailableQuantity() + orderDetail.getQuantity());
+                bookRepository.save(book);
+            }
+        }
         orderRepository.deleteAll();
     }
 
+    @Override
     public void deleteOrder(int orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        for (OrderDetail orderDetail : order.getOrderDetails()) {
+            Book book = orderDetail.getBook();
+            book.setAvailableQuantity(book.getAvailableQuantity() + orderDetail.getQuantity());
+            bookRepository.save(book);
+        }
         orderRepository.deleteById(orderId);
     }
+
     @Override
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         return orderDetailRepository.findByOrderId(orderId);
     }
+
     @Override
     public OrderDetail updateOrderDetailQuantity(int orderDetailId, int quantity) {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                 .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
+        Book book = orderDetail.getBook();
+        int oldQuantity = orderDetail.getQuantity();
+        int quantityDifference = quantity - oldQuantity;
+
+        if (book.getAvailableQuantity() < quantityDifference) {
+            throw new RuntimeException("Insufficient stock for book: " + book.getBookname());
+        }
+
         orderDetail.setQuantity(quantity);
+        book.setAvailableQuantity(book.getAvailableQuantity() - quantityDifference);
+        bookRepository.save(book);
         return orderDetailRepository.save(orderDetail);
     }
+
     @Override
     public OrderDetail addOrderDetailToOrder(int orderId, OrderDetailDTO orderDetailDTO) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         Book book = bookRepository.findById(orderDetailDTO.getBookId())
                 .orElseThrow(() -> new RuntimeException("Book not found"));
+        if (book.getAvailableQuantity() < orderDetailDTO.getQuantity()) {
+            throw new RuntimeException("Insufficient stock for book: " + book.getBookname());
+        }
+
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrder(order);
         orderDetail.setBook(book);
         orderDetail.setQuantity(orderDetailDTO.getQuantity());
-        return orderDetailRepository.save(orderDetail);
+        orderDetail = orderDetailRepository.save(orderDetail);
+
+        // Decrease the available quantity of the book
+        book.setAvailableQuantity(book.getAvailableQuantity() - orderDetailDTO.getQuantity());
+        bookRepository.save(book);
+
+        return orderDetail;
     }
 
     @Override
     public void deleteAllOrdersByCustomerId(int customerId) {
         List<Order> orders = orderRepository.findByCustomerId(customerId);
+        for (Order order : orders) {
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                Book book = orderDetail.getBook();
+                book.setAvailableQuantity(book.getAvailableQuantity() + orderDetail.getQuantity());
+                bookRepository.save(book);
+            }
+        }
         orderRepository.deleteAll(orders);
     }
 
     @Override
     public void deleteOrderDetail(int orderDetailId) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
+                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
+        Book book = orderDetail.getBook();
+        book.setAvailableQuantity(book.getAvailableQuantity() + orderDetail.getQuantity());
+        bookRepository.save(book);
         orderDetailRepository.deleteById(orderDetailId);
     }
 }

@@ -16,6 +16,7 @@ import ProfilePage from "./pages/ProfilePage.tsx";
 import { Provider } from "react-redux";
 import store from "./store/configureStore.ts";
 import BookDetailPage from "./pages/BookDetailPage.tsx";
+import CheckoutPage from "./pages/CheckoutPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: "/book/:id",
                 element: <BookDetailPage />,
+            },
+            {
+                path: "/checkout",
+                element: <CheckoutPage />,
             },
         ],
     },

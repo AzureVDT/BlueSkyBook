@@ -40,6 +40,7 @@ const DashboardPage = () => {
             name: string;
             price: number;
             thumbnail: string;
+            availableQuantity: number;
         }[]
     >(JSON.parse(sessionStorage.getItem("cartItems") || "[]"));
 
@@ -98,6 +99,7 @@ const DashboardPage = () => {
                         name: book.bookname,
                         price: book.price,
                         thumbnail: book.thumbnail,
+                        availableQuantity: book.availableQuantity,
                     },
                 ];
                 carts = newCartItems;

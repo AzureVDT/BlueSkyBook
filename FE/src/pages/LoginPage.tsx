@@ -33,6 +33,7 @@ const LoginPage = () => {
             setLoading(false);
         } catch (error) {
             toast.error("Email or password is incorrect");
+            setLoading(false);
             console.error(error);
         }
     };
