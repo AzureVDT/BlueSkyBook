@@ -37,12 +37,13 @@ public class Customer {
     @JsonBackReference
     private List<Order> orders;
 
-    public Customer(String name, String email, String phone, String avatar, String password) {
+    public Customer(String name, String email, String phone, String avatar, String password, Role role) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.avatar = avatar;
         this.password = password;
+        this.role = role;
     }
 
 }

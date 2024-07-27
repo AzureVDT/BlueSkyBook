@@ -8,6 +8,7 @@ import vn.edu.iuh.fit.models.OrderDetail;
 import java.util.List;
 
 public interface OrderServices {
+    List<Order> getAllOrders();
     List<Order> getOrdersByCustomerId(int customerId);
 
     Order createOrder(OrderDTO orderDTO);

@@ -7,16 +7,22 @@
     import vn.edu.iuh.fit.models.Customer;
     import vn.edu.iuh.fit.services.CustomerServices;
 
+    import java.util.List;
     import java.util.Map;
     import java.util.Optional;
 
     @RestController
     @RequestMapping("/api/v1/customer")
-    @CrossOrigin(origins = "http://localhost:5173")
     public class CustomerController {
 
         @Autowired
         private CustomerServices customerServices;
+
+        @GetMapping("/all")
+        public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+            List<CustomerDTO> customers = customerServices.getAllCustomers();
+            return ResponseEntity.ok(customers);
+        }
 
         @GetMapping("/{id}")
         public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable int id) {

@@ -33,6 +33,11 @@ public class OrderServiceImpl implements OrderServices {
     private BookRepository bookRepository;
 
     @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
     public List<Order> getOrdersByCustomerId(int customerId) {
         return orderRepository.findByCustomerId(customerId);
     }

@@ -13,10 +13,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/order")
-@CrossOrigin(origins = "http://localhost:5173")
 public class OrderController {
     @Autowired
     private OrderServices orderService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable int customerId) {

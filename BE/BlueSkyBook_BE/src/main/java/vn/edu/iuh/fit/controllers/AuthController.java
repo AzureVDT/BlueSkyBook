@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
@@ -23,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Customer> signup(@RequestBody Customer customer) {
-        Customer createdCustomer = authServices.signup(customer.getName(), customer.getEmail(), customer.getPassword());
+        Customer createdCustomer = authServices.signup(customer.getName(), customer.getEmail(), customer.getPassword(), customer.getRole());
         return ResponseEntity.ok(createdCustomer);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import vn.edu.iuh.fit.dto.CustomerDTO;
+import vn.edu.iuh.fit.enums.Role;
 import vn.edu.iuh.fit.models.Customer;
 import vn.edu.iuh.fit.repositories.CustomerRepository;
 import vn.edu.iuh.fit.services.AuthServices;
@@ -24,8 +25,8 @@ public class AuthServiceImpl implements AuthServices {
     }
 
     @Override
-    public Customer signup(String name, String email, String password) {
-        Customer customer = new Customer(name, email, null, null, password);
+    public Customer signup(String name, String email, String password, Role role) {
+        Customer customer = new Customer(name, email, null, null, password, role);
         customer = customerRepository.save(customer);
         return customer;
     }
