@@ -18,18 +18,11 @@ import { RootState } from "../store/configureStore";
 import { setTriggerFetchingCart } from "../store/actions/commonSlice";
 import { BLUE_STORE_BOOK_API } from "../apis";
 import handleFormatTime from "../utils/handleFormatTime";
+import { CartItem } from "../types/commonType";
+import RequiredAuthPage from "./RequiredAuthPage";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
-
-interface CartItem {
-    bookId: number;
-    quantity: number;
-    name: string;
-    price: number;
-    thumbnail: string;
-    availableQuantity: number;
-}
 
 const CheckoutPage: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>(
@@ -93,6 +86,13 @@ const CheckoutPage: React.FC = () => {
 
     const handleCheckout = async () => {
         setLoading(true);
+        if (!userInfo.phone || !userInfo.address) {
+            message.warning(
+                "Please update your phone number and address in your profile before checkout."
+            );
+            setLoading(false);
+            return;
+        }
         if (!paymentMethod) {
             message.warning("Please select payment method.");
             setLoading(false);
@@ -304,7 +304,7 @@ const CheckoutPage: React.FC = () => {
     }, [userInfo.id]);
 
     return (
-        <div>
+        <RequiredAuthPage>
             <Tabs defaultActiveKey="1">
                 <TabPane tab="Cart Items" key="1">
                     <Table
@@ -412,7 +412,7 @@ const CheckoutPage: React.FC = () => {
                     pagination={false}
                 />
             </Modal>
-        </div>
+        </RequiredAuthPage>
     );
 };
 

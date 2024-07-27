@@ -3,6 +3,11 @@ import axios from "./axios";
 import { Order, OrderDetail } from "../types/orderTypes";
 import { OrderBody } from "../types/commonType";
 
+const getAllOrder = async () => {
+    const response: AxiosResponse<Order[]> = await axios.get("/order/all");
+    return response;
+};
+
 const getOrderByCustomerId = async (customerId: number) => {
     const response: AxiosResponse<Order[]> = await axios.get(
         `/order/customer/${customerId}`
@@ -69,6 +74,7 @@ const deleteAllOrderByCustomerId = async (customerId: string) => {
 };
 
 export const ORDER = {
+    getAllOrder,
     getOrderByCustomerId,
     createOrder,
     addOrderDetailToOrder,

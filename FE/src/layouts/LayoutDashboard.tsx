@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import getUserInfoFromCookie from "../utils/getUserInfoFromCookie";
 import { setUserInfo } from "../store/actions/authSlice";
-import RequiredAuthPage from "../pages/RequiredAuthPage";
 
 const LayoutDashboard = () => {
     const dispatch = useDispatch();
@@ -18,7 +17,7 @@ const LayoutDashboard = () => {
     }, [dispatch]);
 
     return (
-        <RequiredAuthPage>
+        <>
             <div className="h-full md:min-h-screen min-w-fit bg-strock">
                 <Row className="w-full h-[60px] shadow-md bg-lite fixed top-0 left-0 right-0 z-50">
                     <Col span={24}>
@@ -34,7 +33,7 @@ const LayoutDashboard = () => {
                     </Row>
                 </div>
             </div>
-        </RequiredAuthPage>
+        </>
     );
 };
 

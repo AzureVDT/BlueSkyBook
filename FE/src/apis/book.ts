@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import axios from "./axios";
-import { Book } from "../types/bookTypes";
+import { Book, BookBody } from "../types/bookTypes";
 
 const getAllBooks = async () => {
     const response: AxiosResponse<Book[]> = await axios.get("/book");
@@ -19,8 +19,8 @@ const getBookByGenre = async (genre: number) => {
     return response;
 };
 
-const addBook = async (book: Book) => {
-    const response: AxiosResponse<Book> = await axios.post(
+const addBook = async (book: BookBody) => {
+    const response: AxiosResponse<BookBody> = await axios.post(
         "/book/create",
         book
     );

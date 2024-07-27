@@ -4,12 +4,12 @@ import { Genre } from "../types/genreType";
 
 const getAllGenres = async () => {
     const response: AxiosResponse<Genre[]> = await axios.get("/genre");
-    return response.data;
+    return response;
 };
 
 const getGenreById = async (id: number) => {
     const response: AxiosResponse<Genre> = await axios.get(`/genre/${id}`);
-    return response.data;
+    return response;
 };
 
 export const GENRE = {

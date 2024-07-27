@@ -22,6 +22,7 @@ import { RootState } from "../store/configureStore";
 const { Title, Paragraph } = Typography;
 
 const BookDetailPage = () => {
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>();
@@ -50,28 +51,32 @@ const BookDetailPage = () => {
     }, [id]);
 
     const handleAddToCart = () => {
-        const cartItems = JSON.parse(
-            sessionStorage.getItem("cartItems") || "[]"
-        );
-        const existingItemIndex = cartItems.findIndex(
-            (item: { bookId: number }) => item.bookId === book.id
-        );
+        if (userInfo.id) {
+            const cartItems = JSON.parse(
+                sessionStorage.getItem("cartItems") || "[]"
+            );
+            const existingItemIndex = cartItems.findIndex(
+                (item: { bookId: number }) => item.bookId === book.id
+            );
 
-        if (existingItemIndex !== -1) {
-            cartItems[existingItemIndex].quantity += quantity;
+            if (existingItemIndex !== -1) {
+                cartItems[existingItemIndex].quantity += quantity;
+            } else {
+                cartItems.push({
+                    bookId: book.id,
+                    quantity,
+                    name: book.bookname,
+                    price: book.price,
+                    thumbnail: book.thumbnail,
+                    availableQuantity: book.availableQuantity,
+                });
+            }
+            dispatch(setTriggerFetchingCart(!triggerFetchingCart));
+            sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+            message.success("Book added to cart!");
         } else {
-            cartItems.push({
-                bookId: book.id,
-                quantity,
-                name: book.bookname,
-                price: book.price,
-                thumbnail: book.thumbnail,
-                availableQuantity: book.availableQuantity,
-            });
+            message.error("Please login to add book to cart!");
         }
-        dispatch(setTriggerFetchingCart(!triggerFetchingCart));
-        sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-        message.success("Book added to cart!");
     };
 
     return (

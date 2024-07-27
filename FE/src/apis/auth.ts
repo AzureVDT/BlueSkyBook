@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import axios from "./axios";
-import { LoginResponse } from "../types/customerType";
+import { Customer, LoginResponse } from "../types/customerType";
 
 const login = async (email: string, password: string) => {
     const response: AxiosResponse<LoginResponse> = await axios.post(
@@ -18,6 +18,7 @@ const signup = async (name: string, email: string, password: string) => {
         name,
         email,
         password,
+        role: "CUSTOMER",
     });
     return response;
 };
@@ -43,9 +44,17 @@ const updatePassword = async (new_password: string, id: number) => {
     return response;
 };
 
+const getAllCustomers = async () => {
+    const response: AxiosResponse<Customer[]> = await axios.get(
+        "/customer/all"
+    );
+    return response;
+};
+
 export const AUTH = {
     login,
     signup,
     updateProfile,
     updatePassword,
+    getAllCustomers,
 };

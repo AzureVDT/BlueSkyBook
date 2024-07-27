@@ -2,9 +2,8 @@ import { Button, Form, FormProps, Input, Typography } from "antd";
 import LayoutAuthentication from "../layouts/LayoutAuthentication";
 import { BLUE_STORE_BOOK_API } from "../apis";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import saveUserInfoToCookie from "../utils/saveUserInfoToCookie";
-import getUserInfoFromCookie from "../utils/getUserInfoFromCookie";
 import { toast } from "react-toastify";
 
 type FieldType = {
@@ -28,6 +27,14 @@ const LoginPage = () => {
             if (response.status === 200) {
                 toast.success("Login successfully!");
                 saveUserInfoToCookie(response.data);
+                const cartResponse =
+                    await BLUE_STORE_BOOK_API.CART.getCartByCustomerId(
+                        response.data.id
+                    );
+                sessionStorage.setItem(
+                    "cartItems",
+                    JSON.stringify(cartResponse.data)
+                );
                 navigate("/");
             }
             setLoading(false);
@@ -38,13 +45,6 @@ const LoginPage = () => {
         }
     };
 
-    useEffect(() => {
-        const decryptUser = getUserInfoFromCookie();
-        if (decryptUser) {
-            navigate("/");
-        }
-    }, [navigate]);
-
     const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
         errorInfo
     ) => {
@@ -54,7 +54,7 @@ const LoginPage = () => {
         <LayoutAuthentication>
             <Form
                 form={form}
-                name="reset-password"
+                name="login-form"
                 layout="vertical"
                 labelCol={{ span: 16 }}
                 wrapperCol={{ span: 24 }}

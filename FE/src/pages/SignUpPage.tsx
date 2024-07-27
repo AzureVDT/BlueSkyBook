@@ -2,8 +2,7 @@ import { Button, Form, FormProps, Input, Typography } from "antd";
 import LayoutAuthentication from "../layouts/LayoutAuthentication";
 import { BLUE_STORE_BOOK_API } from "../apis";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import getUserInfoFromCookie from "../utils/getUserInfoFromCookie";
+import { useState } from "react";
 import saveUserInfoToCookie from "../utils/saveUserInfoToCookie";
 import { toast } from "react-toastify";
 
@@ -29,7 +28,7 @@ const SignUpPage = () => {
             if (response.status === 200) {
                 saveUserInfoToCookie(response.data);
                 toast.success("Sign up successfully!");
-                navigate("/profile");
+                navigate("/customer/account");
             }
             setLoading(false);
         } catch (error) {
@@ -42,12 +41,6 @@ const SignUpPage = () => {
     ) => {
         console.log("Failed:", errorInfo);
     };
-    useEffect(() => {
-        const decryptUser = getUserInfoFromCookie();
-        if (decryptUser) {
-            navigate("/");
-        }
-    }, [navigate]);
     return (
         <LayoutAuthentication>
             <Form

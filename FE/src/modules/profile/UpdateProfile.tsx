@@ -49,8 +49,10 @@ const UpdateProfile = () => {
                     dispatch(setUserInfo(response.data));
                     saveUserInfoToCookie(response.data);
                     message.success("Update profile successfully!");
+                    setLoading(false);
                 }
             } catch (error) {
+                setLoading(false);
                 console.error("Image upload error:", error);
             }
         } else {
